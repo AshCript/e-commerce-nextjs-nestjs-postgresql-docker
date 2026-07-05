@@ -80,10 +80,21 @@
 
 ## Part 1 : Backend development.
 
-1. Creating the project.
+### 1. Creating the project.
 
 > Go to the directory where to create the project (ex: /home/as-rakot/my-app) and run :
 
 ```sh
 ~$ nest new project-name
 ```
+
+### 2. Basic definitions.
+
+- **MODULE**
+
+> A module is a TypeScript class annotated with the **@Module()** decorator. It serves as ***a container that groups related components—such as controllers, services, and providers—into a single, cohesive unit*** to organize your application's architecture.
+
+Every NestJS application has at least one module, known as the **root module** (typically AppModule). NestJS uses this root module as the entry point to build an internal dependency graph, which helps it resolve how different parts of your code interact and share data.
+
+
+- 
