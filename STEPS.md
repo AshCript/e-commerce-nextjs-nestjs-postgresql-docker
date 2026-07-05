@@ -60,3 +60,30 @@
 
 ---
 
+## PREREQUISITES.
+
+1. Installing Node.js.
+
+```sh
+~$ wget https://nodejs.org/dist/v26.4.0/node-v26.4.0-linux-x64.tar.xz
+```
+
+> Extracting the files and put the executable absolute path in the environment variable.
+
+
+1. Installing NestJS.
+
+```sh
+~$ npm i -g @nestjs/cli
+~$ nest new project-name
+```
+
+## Part 1 : Backend development.
+
+1. Creating the project.
+
+> Go to the directory where to create the project (ex: /home/as-rakot/my-app) and run :
+
+```sh
+~$ nest new project-name
+```
