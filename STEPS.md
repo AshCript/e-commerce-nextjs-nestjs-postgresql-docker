@@ -97,4 +97,11 @@
 Every NestJS application has at least one module, known as the **root module** (typically AppModule). NestJS uses this root module as the entry point to build an internal dependency graph, which helps it resolve how different parts of your code interact and share data.
 
 
-- 
+- **CONTROLLER**
+
+> A controller is a TypeScript class annotated with the **@Controller()** decorator. It is responsible for ***<u>handling</u> incoming HTTP requests from the client*** and ***<u>returning</u> the appropriate HTTP responses back to them***. While modules act as **structural containers**, controllers serve as the **<u>public routing layer and entry point</u>** for your application's API.
+
+A controller's main job is to route incoming requests to specific functions based on the HTTP method (GET, POST, PUT, DELETE) and the URL path.
+
+To keep code maintainable and clean, controllers should only handle the request-response cycle. They should never contain heavy business logic or database queries; instead, they delegate those tasks to a Service via <u>**dependency injection**</u>.
+
