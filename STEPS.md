@@ -70,7 +70,6 @@
 
 > Extracting the files and put the executable absolute path in the environment variable.
 
-
 1. Installing NestJS.
 
 ```sh
@@ -92,16 +91,79 @@
 
 - **MODULE**
 
-> A module is a TypeScript class annotated with the **@Module()** decorator. It serves as ***a container that groups related components—such as controllers, services, and providers—into a single, cohesive unit*** to organize your application's architecture.
+  > A module is a TypeScript class annotated with the **@Module()** decorator. It serves as **_a container that groups related components—such as controllers, services, and providers—into a single, cohesive unit_** to organize your application's architecture.
 
-Every NestJS application has at least one module, known as the **root module** (typically AppModule). NestJS uses this root module as the entry point to build an internal dependency graph, which helps it resolve how different parts of your code interact and share data.
+  Every NestJS application has at least one module, known as the **root module** (typically AppModule). NestJS uses this root module as the entry point to build an internal dependency graph, which helps it resolve how different parts of your code interact and share data.
+  - **Key Types of Modules.**
+    - **Feature Modules:** Used to encapsulate specific domain or feature area (like `AuthModule` or `Productsmodule`).
 
+    - **Shared modules:** By default, NestJS modules are <u>**_singleton_**</u>. Once created, a module can be **_imported and shared across multiple other modules_** seamlessly.
+
+    -**Global Modules:** Annotated with `@Global()`, these modules provide components that are automatically <u>**available everywhere in the application**</u> without needing to be explicitly imported into other <u>feature modules</u>.
+    - **Dynamic Modules:** Highly customizable modules that **_accept configuration parameters_** when imported (often used of **database config** or **environmental variables**, like `ConfigModule.forRoot()`).
 
 - **CONTROLLER**
 
-> A controller is a TypeScript class annotated with the **@Controller()** decorator. It is responsible for ***<u>handling</u> incoming HTTP requests from the client*** and ***<u>returning</u> the appropriate HTTP responses back to them***. While modules act as **structural containers**, controllers serve as the **<u>public routing layer and entry point</u>** for your application's API.
+  > A controller is a TypeScript class annotated with the **@Controller()** decorator. It is responsible for **_<u>handling</u> incoming HTTP requests from the client_** and **_<u>returning</u> the appropriate HTTP responses back to them_**. While modules act as **structural containers**, controllers serve as the **<u>public routing layer and entry point</u>** for your application's API.
 
-A controller's main job is to route incoming requests to specific functions based on the HTTP method (GET, POST, PUT, DELETE) and the URL path.
+  A controller's main job is to route incoming requests to specific functions based on the HTTP method (GET, POST, PUT, DELETE) and the URL path.
 
-To keep code maintainable and clean, controllers should only handle the request-response cycle. They should never contain heavy business logic or database queries; instead, they delegate those tasks to a Service via <u>**dependency injection**</u>.
+  To keep code maintainable and clean, controllers should **only handle the request-response cycle**. They should never contain heavy business logic or database queries; instead, they delegate those tasks to a **Service** via <u>**dependency injection**</u>.
+  - **Key Concepts and Decorators.**
 
+    NestJS relies heavily on decorators to define how a controller behaves:
+    - **Routing:** The `@Controller('path')` decorator defines the base route for all endpoints inside that class (e.g., `@Controller('users')`).
+
+    - **HTTP Methods:** Method decorators like `@Get()`, `@Post()`, `@Put()`, and `@Delete()` map specific functions to HTTP actions.
+
+    - **Request Payloads:** Decorators extract data directly from the client's request:
+
+    - `@Body()` to read incoming JSON data.
+
+    - `@Param('id')` to capture URL route parameters (e.g., `/users/42`).
+
+    - `@Query()` to access URL query parameters (e.g., `/users?role=admin`).
+
+  - **Code Example.**
+
+    ```ts
+    import { Controller, Get, Post, Body, Param } from "@nestjs/common";
+    import { UsersService } from "./users.service";
+
+    @Controller("users") // Base route: /users
+    export class UsersController {
+      // Injecting the service via the constructor
+      constructor(private readonly usersService: UsersService) {}
+
+      @Get() // Handles GET /users
+      findAll() {
+        return this.usersService.getAllUsers();
+      }
+
+      @Get(":id") // Handles GET /users/:id (e.g., /users/12)
+      findOne(@Param("id") id: string) {
+        return this.usersService.getUserById(id);
+      }
+
+      @Post() // Handles POST /users
+      create(@Body() createUserDto: any) {
+        return this.usersService.createNewUser(createUserDto);
+      }
+    }
+    ```
+
+  - How it integrates with a Module.
+
+    For NestJS to recognize a controller and register its routes, it must be listed in the `controllers` array of its accompanying module:
+
+    ```ts
+    @Module({
+      controllers: [UsersController], // Tells Nest to listen to /users routes
+      providers: [UsersService],
+    })
+    export class UsersModule {}
+    ```
+
+- **SERVICE**
+
+  >
