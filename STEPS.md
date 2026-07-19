@@ -99,8 +99,24 @@
 
     - **Shared modules:** By default, NestJS modules are <u>**_singleton_**</u>. Once created, a module can be **_imported and shared across multiple other modules_** seamlessly.
 
-    -**Global Modules:** Annotated with `@Global()`, these modules provide components that are automatically <u>**available everywhere in the application**</u> without needing to be explicitly imported into other <u>feature modules</u>.
+    - **Global Modules:** Annotated with `@Global()`, these modules provide components that are automatically <u>**available everywhere in the application**</u> without needing to be explicitly imported into other <u>feature modules</u>.
     - **Dynamic Modules:** Highly customizable modules that **_accept configuration parameters_** when imported (often used of **database config** or **environmental variables**, like `ConfigModule.forRoot()`).
+
+  - **Code example.**
+
+    ```ts
+    import { Module } from "@nestjs/common";
+    import { UsersController } from "./users.controller";
+    import { UsersService } from "./users.service";
+
+    @Module({
+      imports: [], // Other modules needed here
+      controllers: [UsersController], // Registers HTTP routes
+      providers: [UsersService], // Registers business logic
+      exports: [UsersService], // Allows other modules to use the UsersService
+    })
+    export class UsersModule {}
+    ```
 
 - **CONTROLLER**
 
@@ -166,4 +182,59 @@
 
 - **SERVICE**
 
-  >
+  > A service is a TypeScript class annotated with the **@Injectable()** decorator. It is responsible for **_housing your application's business logic, data processing, and interactions with databases or external APIs_**.
+
+  While controllers handle routing and HTTP requests, services do the actual underlying work.
+  - **The Core Purpose of a Service.**
+
+    A service acts as a **provider** in NestJS. Its primary goal is **_to isolate complex code away from the delivery layer (like HTTP or WebSockets)_** so that your logic is <u>**_reusable_**</u>, <u>**_maintainable_**</u>, and <u>**_easy to isolate_**</u> for <u>**unit testing**</u>.
+
+  - **Dependency Injection.**
+
+    To use a service inside a controller (or inside another service), you do not instantiate it manually using the `new` keyword. Instead, you utilize NestJS's built-in **Dependency Injection (DI)** system by <u>**declaring it inside the constructor**</u>.
+
+  - **Code Example.**
+
+    ```ts
+    import { Injectable, NotFoundException } from "@nestjs/common";
+
+    @Injectable() // Marks the class so NestJS can manage its lifecycle
+    export class UsersService {
+      // Mock data array acting as a database
+      private users = [
+        { id: "1", name: "Alice" },
+        { id: "2", name: "Bob" },
+      ];
+
+      getAllUsers() {
+        return this.users;
+      }
+
+      getUserById(id: string) {
+        const user = this.users.find((u) => u.id === id);
+        if (!user) {
+          throw new NotFoundException(`User with ID ${id} not found`);
+        }
+        return user;
+      }
+
+      createNewUser(dto: { name: string }) {
+        const newUser = { id: Date.now().toString(), ...dto };
+        this.users.push(newUser);
+        return newUser;
+      }
+    }
+    ```
+
+  - **Connecting the Pieces (Module Registration).**
+
+    For a service to be injectable, NestJS needs to know it exists. You must **register it in the <u>_providers array_</u> of a module**:
+
+    ```ts
+    @Module({
+      controllers: [UsersController],
+      providers: [UsersService], // Registering the service here makes it available
+      exports: [UsersService], // Optional: Exporting it lets   OTHER modules use it
+    })
+    export class UsersModule {}
+    ```
