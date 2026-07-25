@@ -348,3 +348,106 @@
     Learn more: https://pris.ly/getting-started
     ```
 
+  - #### 4. Creatomg datanase schema model.
+
+    - prisma/schema.prisma :
+
+    ```ts
+    ...
+    enum Role {
+     USER
+     ADMIN 
+    }
+    model User {
+      id            String  @id @default(uuid())
+      email         String  @unique
+      password      String
+      firstName     String?
+      lastName      String?
+      role          Role    @default(USER)
+      refreshToken  String?
+
+      // OneToMany
+      orders        Order[] // OneToMany : One User can have Many Orders.
+      carts         Cart[] // OneTomany : One User can have Many Cards.
+      payments      Payment[]
+
+      // Timestamps
+      createdAt     DateTime  @default(now())
+      updatedAt     DateTime  @updatedAt
+
+      // TO LEARN DEEPER....
+      @@index([email]) // For Performance Purpose.
+      @@map("users") // The name of the table.
+    }
+
+    model Order {
+      id      String  @id @default(uuid())
+
+      // ManyToOne
+      userId  String
+      user    User    @relation(fields: [userId], references: [id], onDelete: Cascade) // ManyToOne : Many Orders can be owned by One User => One Order is only owned by One User.
+    }
+
+    model Cart {
+      id      String  @id @default(uuid())
+
+      // ManyToOne
+      userId  String
+      user    User    @relation(fields: [userId], references: [id], onDelete: Cascade) // ManyToOne : Many Cards can be owned by One User => One Card is only owned by One User.
+    }
+
+    model Payment {
+      id      String  @id @default(uuid())
+
+      // ManyToOne
+      userId  String
+      user    User    @relation(fields: [userId], references: [id], onDelete: Cascade) // ManyToOne : Many Payments can be owned by one User => One Payment is only done by One User.
+    }
+
+    model Product {
+      id          String    @id @default(uuid())
+      name        String
+      description String?
+      price       Decimal   @db.Decimal(10,2)
+      stock       Int       @default(0)
+      sku         String    @unique
+      imageUrl    String?
+      isActive    Boolean   @default(true)
+
+      // OneToMany
+      orderItems  OrderItem[]
+      cartItems   CartItem[]
+
+      // ManyToOne
+      categoryId  String
+      category    Category  @relation(fields: [categoryid], references: [id])
+
+      // Timestamps
+      createdAt   DateTime  @default(now())
+      updatedAt   DateTime  @updatedAt
+
+      // TO LEARN DEEPER....
+      // TO LEARN DEEPER....
+      @@index([sku]) // For Performance Purpose.
+      @@index([categoryId]) // For Performance Purpose.
+      @@index([isActive]) // For Performance Purpose.
+      @@map("products") // The name of the table.
+    }
+
+    model OrderItem {
+      id        String  @id @default(uuid())
+
+      // ManyToOne
+      productId String
+      product   Product @relation(fields: [productId], references: [id])
+    }
+
+    model CartItem {
+      id        String  @id @default(uuid())
+
+      // ManyToOne
+      productId String
+      product   Product @relation(fields: [productId], references: [id])
+    }
+    ```

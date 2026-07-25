@@ -1,0 +1,19 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>100</x><y>130</y><w>170</w><h>170</h></coordinates><panel_attributes>*Users*
+-
+*id: uuid*
+email: varchar
+password: varchar
+first_name: varchar
+last_name: varchar
+role: varchar
+refresh_token: varchar
+created_at: timestamp
+updated_at: timestamp
+bg=#00ffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>330</y><w>170</w><h>110</h></coordinates><panel_attributes>*Carts*
+-
+*id: uuid*
+/*#user_id: uuid*/
+is_checked: boolean
+created_at: timestamp
+updated_at: timestamp
+bg=#00ffff</panel_attributes><additional_attributes></additional_attributes></element></diagram>
