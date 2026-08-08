@@ -1,19 +1,108 @@
-<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>100</x><y>130</y><w>170</w><h>170</h></coordinates><panel_attributes>*Users*
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>1062</x><y>0</y><w>153</w><h>180</h></coordinates><panel_attributes>*User*
 -
-*id: uuid*
-email: varchar
-password: varchar
-first_name: varchar
-last_name: varchar
-role: varchar
-refresh_token: varchar
-created_at: timestamp
-updated_at: timestamp
-bg=#00ffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>330</y><w>170</w><h>110</h></coordinates><panel_attributes>*Carts*
+*id: string uuid*
+email: string
+password: string
+first_name: string?
+last_name: string?
+role: string
+refresh_token: varchar?
+created_at: datetime
+updated_at: datetime
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1062</x><y>225</y><w>153</w><h>180</h></coordinates><panel_attributes>*Cart*
 -
-*id: uuid*
-/*#user_id: uuid*/
-is_checked: boolean
-created_at: timestamp
-updated_at: timestamp
-bg=#00ffff</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+*id: string uuid*
+/*#user_id: string*/
+is_checked: boolean(false)
+created_at: datetime
+updated_at: datetime
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>819</x><y>225</y><w>153</w><h>180</h></coordinates><panel_attributes>*Order*
+-
+*id: string uuid*
+/*#user_id: string*/
+/*#cart_id: string*/
+order_number: string
+status: string
+total_amount: decimal
+shipping_address: string?
+created_at: datetime
+updated_at: datetime
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>576</x><y>0</y><w>153</w><h>180</h></coordinates><panel_attributes>*Payment*
+-
+*id: string uuid*
+/*#user_id: string*/
+/*#order_id: string*/
+amount: decimal
+status: string
+currency: string
+payment_method: string?
+transaction_id: string
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>576</x><y>225</y><w>153</w><h>180</h></coordinates><panel_attributes>*Category*
+-
+*id: string uuid*
+name: string
+description: string?
+slug: string
+image_url: string
+is_active: boolean(true)
+created_at: datetime
+updated_at: datetime
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>576</x><y>459</y><w>153</w><h>180</h></coordinates><panel_attributes>*Product*
+-
+*id: string uuid*
+/*#category_id: string*/
+name: string
+description: string?
+price: decimal
+stock: int
+sku: string
+image_url: string?
+is_active: boolean(true)
+created_at: datetime
+updated_at: datetime
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>819</x><y>459</y><w>153</w><h>180</h></coordinates><panel_attributes>*OrderItem*
+-
+*id: string uuid*
+/*product_id: string*/
+/*order_id: string*/
+quantity: int
+price: decimal
+created_at: datetime
+updated_at: datetime
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1062</x><y>459</y><w>153</w><h>180</h></coordinates><panel_attributes>*CartItem*
+-
+*id: string uuid*
+/*#product_id: string*/
+/*#cart_id: string*/
+quantity: int
+created_at: datetime
+updated_at: datetime
+bg=#000000
+fg=#ffffff</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>936</x><y>90</y><w>144</w><h>153</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>140;10;10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>1125</x><y>171</y><w>36</w><h>72</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>90</y><w>180</w><h>153</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>170;150;170;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>963</x><y>297</y><w>117</w><h>36</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>882</x><y>396</y><w>36</w><h>81</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>639</x><y>396</y><w>36</w><h>81</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>522</y><w>117</w><h>36</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;110;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1125</x><y>396</y><w>36</w><h>81</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>639</x><y>630</y><w>522</w><h>45</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>10;10;10;20;550;20;550;10</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>36</y><w>360</w><h>36</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>380;10;10;10</additional_attributes></element></diagram>

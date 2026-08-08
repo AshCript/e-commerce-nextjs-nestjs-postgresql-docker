@@ -336,7 +336,7 @@ nest new project-name
     Next, choose how you want to set up your database:
 
     CONNECT EXISTING DATABASE:
-      1. Configure your DATABASE_URL in prisma.config.ts
+      1. Configure DATABASE_URL in prisma.config.ts
       2. Run prisma db pull to introspect your database.
 
     CREATE NEW DATABASE:
@@ -712,7 +712,7 @@ nest new project-name
     npx prisma generate
     ```
 
-    This command just reads the `schema.prisma` file and **generates a custome, type-safe database client (Prisma Client)** specifically tailored to the **data models**.
+    This command just reads the `schema.prisma` file and **generates a custom, type-safe database client (Prisma Client)** specifically tailored to the **data models**.
 
     When we run it, it :
 
